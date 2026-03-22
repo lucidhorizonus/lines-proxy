@@ -7,7 +7,7 @@ module.exports = async function handler(req, res) {
 
   try {
     const r = await fetch(
-      'https://api.kalshi.com/trade-api/v2/markets?status=open&limit=200',
+      'https://trading-api.kalshi.com/trade-api/v2/markets?status=open&limit=200',
       { headers: { 'Authorization': `Bearer ${KALSHI_KEY}`, 'Content-Type': 'application/json' } }
     );
     const d = await r.json();
