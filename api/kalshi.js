@@ -7,17 +7,11 @@ module.exports = async function handler(req, res) {
 
   try {
     const r = await fetch(
-      'https://api.elections.kalshi.com/trade-api/v2/markets?status=open&limit=200',
+      'https://api.elections.kalshi.com/trade-api/v2/markets?status=open&limit=100&series_ticker=KXNCAAMBGAME',
       { headers: { 'Authorization': `Bearer ${KALSHI_KEY}`, 'Content-Type': 'application/json' } }
     );
-    const text = await r.text();
-    let d;
-    try { d = JSON.parse(text); } catch(e) { return res.status(500).json({ error: 'Kalshi parse error', raw: text.slice(0,200) }); }
-    const markets = (d.markets || []).filter(m => {
-      const t = (m.title || m.subtitle || m.series_ticker || '').toLowerCase();
-      return t.includes('ncaa') || t.includes('march madness') || t.includes('ncaab') || t.includes('college basketball') || (m.category||'').toLowerCase().includes('basketball');
-    });
-    return res.status(200).json({ markets, total: (d.markets||[]).length });
+    const d = await r.json();
+    return res.status(200).json({ markets: d.markets || [], total: (d.markets||[]).length });
   } catch(e) {
     return res.status(500).json({ error: e.message });
   }
