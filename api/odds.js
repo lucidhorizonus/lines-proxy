@@ -7,7 +7,7 @@ module.exports = async function handler(req, res) {
 
   try {
     const r = await fetch(
-      `https://api.the-odds-api.com/v4/sports/basketball_ncaab/odds/?apiKey=${ODDS_API_KEY}&regions=us,eu,uk,au&markets=h2h,spreads&oddsFormat=american`
+      `https://api.the-odds-api.com/v4/sports/basketball_ncaab/odds/?apiKey=${ODDS_API_KEY}&regions=us,eu,uk,au&markets=h2h,spreads,totals&oddsFormat=american`
     );
     return res.status(200).json(await r.json());
   } catch(e) {
